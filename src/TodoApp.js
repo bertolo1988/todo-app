@@ -28,12 +28,12 @@ class Todo extends React.Component {
     }
     switchPriority(priority) {
         switch (priority) {
-                        case 1:
-                            return 'low-priority';
-                        case 2:
-                            return 'medium-priority';
-                        default:
-                            return 'max-priority';
+            case 1:
+                return 'low-priority';
+            case 2:
+                return 'medium-priority';
+            default:
+                return 'max-priority';
         }
     }
     getCompletedClass(completed) {
@@ -48,12 +48,44 @@ class Todo extends React.Component {
     }
 }
 
+class TodoForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { priority: 1, completed: false, text: '' };
+        this.handleChange = this.handleChange.bind(this);
+    }
+    handleSubmit(e) {
+        e.preventDefault();
+        this.props.onFormSubmit(this.state);
+        this.setState({ priority: 1, completed: false, text: '' });
+        React.findDOMNode(this.refs.item).focus();
+        return;
+    }
+    handleChange(event) {
+        this.setState({ text: event.target.value });
+    }
+    render() {
+        return (<div className='todo-form'>
+            <form onSubmit={this.handleSubmit}>
+            <input type="text" value={this.state.value} onChange={this.handleChange}/>
+            <input type='submit' value='Add'/>
+            </form>
+            </div>);
+    }
+}
+
 class TodoList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             TODOS
         };
+    }
+    updateItems(newTodo) {
+        let todos = this.state.TODOS.push(newTodo);
+        this.setState({
+            TODOS: todos
+        });
     }
     buildRows(todos) {
         let rows = [];
@@ -66,7 +98,7 @@ class TodoList extends React.Component {
     }
     render() {
         let rows = this.buildRows(this.state.TODOS);
-        return (<table><tbody >{rows}</tbody></table>);
+        return (<div className='todo-list'><table><tbody >{rows}</tbody></table><TodoForm onFormSubmit={this.updateItems}/></div>);
     }
 }
 
