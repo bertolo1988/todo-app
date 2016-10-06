@@ -11,6 +11,17 @@ const TODOS = [
     { priority: 3, completed: false, text: 'Oi them' },
 ];
 
+class Todo extends React.Component {
+    render() {
+        let todoText = this.props.todo.text;
+        return (
+            <tr className={this.props.todoClasses}>
+            <td><button ref='deleteTodo' onClick={this.props.deleteTodo.bind(this,todoText)} className='close-button'>&times;</button></td>
+            <td  onClick={this.props.completeTodo.bind(this,todoText)} className='todo-row'>{todoText}</td>
+            </tr>);
+    }
+}
+
 class TodoForm extends React.Component {
     constructor(props) {
         super(props);
@@ -44,18 +55,6 @@ class TodoForm extends React.Component {
             </div>);
     }
 }
-
-class Todo extends React.Component {
-    render() {
-        let todoText = this.props.todo.text;
-        return (
-            <tr className={this.props.todoClasses}>
-            <td><button ref='deleteTodo' onClick={this.props.deleteTodo.bind(this,todoText)} className='close-button'>&times;</button></td>
-            <td  onClick={this.props.completeTodo.bind(this,todoText)} className='todo-row'>{todoText}</td>
-            </tr>);
-    }
-}
-
 
 class TodoList extends React.Component {
     constructor(props) {
