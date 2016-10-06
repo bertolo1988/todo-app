@@ -6,7 +6,7 @@ import classNames from 'classnames';
 const TODOS = [
     { priority: 1, completed: false, text: 'Buy socks' },
     { priority: 2, completed: false, text: 'Fix 1€ bug on flight-scrappper' },
-    { priority: 1, completed: false, text: 'Buy socks' },
+    { priority: 1, completed: false, text: 'Buy Jeans' },
     { priority: 2, completed: true, text: 'Wash meat' },
     { priority: 3, completed: false, text: 'Oi them' },
 ];
@@ -45,7 +45,10 @@ class Todo extends React.Component {
         let completedClass = this.getCompletedClass(this.state.completed);
         let todoClasses = classNames(priorityClass, completedClass);
         return (
-            <tr onClick={this.handleClick} className={todoClasses}><td className="todo-row">{this.state.text}</td></tr>);
+            <tr className={todoClasses}>
+            <td><button ref='deleteTodo' onClick={this.props.deleteTodo.bind(this,this.state)} className='close-button'>&times;</button></td>
+            <td  onClick={this.handleClick} className='todo-row'>{this.state.text}</td>
+            </tr>);
     }
 }
 
@@ -53,7 +56,8 @@ class TodoForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = { priority: 1, completed: false, text: '' };
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChangeText = this.handleChangeText.bind(this);
+        this.handleChangePriority = this.handleChangePriority.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit(e) {
@@ -64,13 +68,18 @@ class TodoForm extends React.Component {
         this.refs.value.value = '';
         return;
     }
-    handleChange(event) {
+    handleChangePriority(event) {
+        this.setState({ priority: parseInt(event.target.value, 4) });
+    }
+
+    handleChangeText(event) {
         this.setState({ text: event.target.value });
     }
     render() {
         return (<div className='todo-form'>
             <form onSubmit={this.handleSubmit}>
-            <input type="text" placeholder='text' ref='value' value={this.state.value} onChange={this.handleChange}/>
+            <input type='number' placeholder='priority' ref='priority' value={this.state.priority} onChange={this.handleChangePriority} min='1' max='3'/>
+            <input type='text' placeholder='text' ref='value' value={this.state.value} onChange={this.handleChangeText}/>
             <input type='submit' value='Add'/>
             </form>
             </div>);
@@ -84,6 +93,7 @@ class TodoList extends React.Component {
             todos: props.todos
         };
         this.updateItems = this.updateItems.bind(this);
+        this.deleteTodo = this.deleteTodo.bind(this);
     }
     updateItems(newTodo) {
         let todos = this.state.todos.concat([newTodo]);
@@ -91,11 +101,19 @@ class TodoList extends React.Component {
             todos: todos
         });
     }
+    deleteTodo(todoToRemove) {
+        let newTodos = this.state.todos.filter((_todo) => {
+            return _todo.text !== todoToRemove.text;
+        });
+        this.setState({
+            todos: newTodos
+        });
+    }
     buildRows(todos) {
         let rows = [];
         let i = 0;
         for (let todo of todos) {
-            rows.push(<Todo  key={i} todo={todo}/>);
+            rows.push(<Todo deleteTodo={this.deleteTodo} key={i} todo={todo}/>);
             i++;
         }
         return rows;

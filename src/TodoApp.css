@@ -1,3 +1,52 @@
+div.todo-list > table {
+    width: 100%;
+}
+
+div.TodoApp {
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.todo-form {
+    float: right;
+}
+
+div.todo-list tr {
+    border-radius: 5px;
+    display: block;
+    margin: 2px 0px 2px 0px;
+    padding-left: 10px;
+}
+
+button.close-button {
+    border: none;
+    background: none;
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+    padding: 0px;
+    text-align: center;
+}
+
+form input {
+    border-radius: 5px;
+    margin: 0px 0px 0px 4px;
+    padding: 10px;
+    border: none;
+    background: #e4dfdf;
+    transition: border 0.3s;
+}
+
+form input[type='number'] {
+    width: 60px;
+}
+
+form input:focus {
+    border: none;
+    outline: none;
+}
+
 .low-priority {
     background: rgba(54, 200, 54, 0.5);
 }
@@ -11,11 +60,12 @@
 }
 
 .todo-row {
-    font-size: 30px;
+    font-size: 25px;
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 3px;
     padding-bottom: 3px;
+    width: 100%;
 }
 
 .completed-todo {
