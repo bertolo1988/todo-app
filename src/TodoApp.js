@@ -81,8 +81,7 @@ class TodoList extends React.Component {
         this.state = {
             todos: props.todos
         };
-        this.updateItems = this.updateItems.bin
-d(this);
+        this.updateItems = this.updateItems.bind(this);
     }
     updateItems(newTodo) {
         let todos = this.state.todos.concat([newTodo]);
