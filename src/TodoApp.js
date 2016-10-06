@@ -1,6 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import './TodoApp.css';
-var classNames = require('classnames');
+import classNames from 'classnames';
 
 const TODOS = [
     { priority: 1, completed: false, text: 'Buy socks' },
@@ -59,7 +60,8 @@ class TodoForm extends React.Component {
         e.preventDefault();
         this.props.onFormSubmit(this.state);
         this.setState({ priority: 1, completed: false, text: '' });
-        /*ReactDOM.findDOMNode(this.refs.item).focus();*/
+        ReactDOM.findDOMNode(this.refs.value).focus();
+        this.refs.value.value = '';
         return;
     }
     handleChange(event) {
@@ -68,7 +70,7 @@ class TodoForm extends React.Component {
     render() {
         return (<div className='todo-form'>
             <form onSubmit={this.handleSubmit}>
-            <input type="text" ref='value' value={this.state.value} onChange={this.handleChange}/>
+            <input type="text" placeholder='text' ref='value' value={this.state.value} onChange={this.handleChange}/>
             <input type='submit' value='Add'/>
             </form>
             </div>);
