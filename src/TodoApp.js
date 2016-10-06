@@ -11,47 +11,6 @@ const TODOS = [
     { priority: 3, completed: false, text: 'Oi them' },
 ];
 
-
-class Todo extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            priority: this.props.todo.priority,
-            completed: this.props.todo.completed,
-            text: this.props.todo.text
-        };
-        this.handleClick = this.handleClick.bind(this);
-    }
-    handleClick() {
-        this.setState({
-            completed: !this.state.completed
-        });
-    }
-    switchPriority(priority) {
-        switch (priority) {
-            case 1:
-                return 'low-priority';
-            case 2:
-                return 'medium-priority';
-            default:
-                return 'max-priority';
-        }
-    }
-    getCompletedClass(completed) {
-        return completed ? 'completed-todo' : '';
-    }
-    render() {
-        let priorityClass = this.switchPriority(this.state.priority);
-        let completedClass = this.getCompletedClass(this.state.completed);
-        let todoClasses = classNames(priorityClass, completedClass);
-        return (
-            <tr className={todoClasses}>
-            <td><button ref='deleteTodo' onClick={this.props.deleteTodo.bind(this,this.state)} className='close-button'>&times;</button></td>
-            <td  onClick={this.handleClick} className='todo-row'>{this.state.text}</td>
-            </tr>);
-    }
-}
-
 class TodoForm extends React.Component {
     constructor(props) {
         super(props);
@@ -86,6 +45,18 @@ class TodoForm extends React.Component {
     }
 }
 
+class Todo extends React.Component {
+    render() {
+        let todoText = this.props.todo.text;
+        return (
+            <tr className={this.props.todoClasses}>
+            <td><button ref='deleteTodo' onClick={this.props.deleteTodo.bind(this,todoText)} className='close-button'>&times;</button></td>
+            <td  onClick={this.props.completeTodo.bind(this,todoText)} className='todo-row'>{todoText}</td>
+            </tr>);
+    }
+}
+
+
 class TodoList extends React.Component {
     constructor(props) {
         super(props);
@@ -94,6 +65,7 @@ class TodoList extends React.Component {
         };
         this.updateItems = this.updateItems.bind(this);
         this.deleteTodo = this.deleteTodo.bind(this);
+        this.completeTodo = this.completeTodo.bind(this);
     }
     updateItems(newTodo) {
         let todos = this.state.todos.concat([newTodo]);
@@ -103,17 +75,45 @@ class TodoList extends React.Component {
     }
     deleteTodo(todoToRemove) {
         let newTodos = this.state.todos.filter((_todo) => {
-            return _todo.text !== todoToRemove.text;
+            return _todo.text !== todoToRemove;
         });
         this.setState({
             todos: newTodos
+        });
+    }
+    switchPriority(priority) {
+        switch (priority) {
+            case 1:
+                return 'low-priority';
+            case 2:
+                return 'medium-priority';
+            default:
+                return 'max-priority';
+        }
+    }
+    getTodoClasses(todo) {
+        let priorityClass = this.switchPriority(todo.priority);
+        let completedClass = todo.completed ? 'completed-todo' : '';
+        return classNames(priorityClass, completedClass);
+    }
+    completeTodo(todoText) {
+        let todos = [];
+        for (let todo of this.state.todos) {
+            if (todoText === todo.text) {
+                todo.completed = !todo.completed;
+            }
+            todos.push(todo);
+        }
+        this.setState({
+            todos: todos
         });
     }
     buildRows(todos) {
         let rows = [];
         let i = 0;
         for (let todo of todos) {
-            rows.push(<Todo deleteTodo={this.deleteTodo} key={i} todo={todo}/>);
+            let todoClasses = this.getTodoClasses(todo);
+            rows.push(<Todo deleteTodo={this.deleteTodo} completeTodo={this.completeTodo} todoClasses={todoClasses} key={i} todo={todo}/>);
             i++;
         }
         return rows;
