@@ -53,12 +53,13 @@ class TodoForm extends React.Component {
         super(props);
         this.state = { priority: 1, completed: false, text: '' };
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit(e) {
         e.preventDefault();
         this.props.onFormSubmit(this.state);
         this.setState({ priority: 1, completed: false, text: '' });
-        React.findDOMNode(this.refs.item).focus();
+        /*ReactDOM.findDOMNode(this.refs.item).focus();*/
         return;
     }
     handleChange(event) {
@@ -67,7 +68,7 @@ class TodoForm extends React.Component {
     render() {
         return (<div className='todo-form'>
             <form onSubmit={this.handleSubmit}>
-            <input type="text" value={this.state.value} onChange={this.handleChange}/>
+            <input type="text" ref='value' value={this.state.value} onChange={this.handleChange}/>
             <input type='submit' value='Add'/>
             </form>
             </div>);
@@ -78,13 +79,15 @@ class TodoList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            TODOS
+            todos: props.todos
         };
+        this.updateItems = this.updateItems.bin
+d(this);
     }
     updateItems(newTodo) {
-        let todos = this.state.TODOS.push(newTodo);
+        let todos = this.state.todos.concat([newTodo]);
         this.setState({
-            TODOS: todos
+            todos: todos
         });
     }
     buildRows(todos) {
@@ -97,14 +100,14 @@ class TodoList extends React.Component {
         return rows;
     }
     render() {
-        let rows = this.buildRows(this.state.TODOS);
+        let rows = this.buildRows(this.state.todos);
         return (<div className='todo-list'><table><tbody >{rows}</tbody></table><TodoForm onFormSubmit={this.updateItems}/></div>);
     }
 }
 
 const TodoApp = () => {
     return (
-        <div className="TodoApp"><TodoList todos={ TODOS }/></div>
+        <div className="TodoApp"><TodoList todos={TODOS}/></div>
     );
 };
 
