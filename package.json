@@ -1,20 +1,27 @@
 {
-  "name": "my-react-app",
-  "version": "0.1.0",
-  "private": true,
-  "devDependencies": {
-    "react-scripts": "0.6.1"
-  },
-  "dependencies": {
-    "classnames": "^2.2.5",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "lint": "eslint --fix src/*.js"
-  }
+    "name": "todo-app",
+    "version": "0.0.1",
+    "description": "A todo web app made with reactjs."
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bertolo1988/todo-app"
+    },
+    "author": "bertolo1988 <tiagobertolo@gmail.com> (https://github.com/bertolo1988)",
+    "homepage": "https://github.com/bertolo1988/todo-app",
+    "private": false,
+    "devDependencies": {
+        "react-scripts": "0.6.1"
+    },
+    "dependencies": {
+        "classnames": "2.2.5",
+        "react": "15.3.2",
+        "react-dom": "15.3.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject",
+        "lint": "eslint --fix src/*.js"
+    }
 }
