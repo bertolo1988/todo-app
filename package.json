@@ -1,7 +1,7 @@
 {
     "name": "todo-app",
     "version": "0.0.1",
-    "description": "A todo web app made with reactjs."
+    "description": "A todo web app made with reactjs.",
     "repository": {
         "type": "git",
         "url": "https://github.com/bertolo1988/todo-app"
