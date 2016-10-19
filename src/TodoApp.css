@@ -61,10 +61,7 @@ form input:focus {
 
 .todo-row {
     font-size: 25px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding: 3px 10px 3px 10px;
     width: 100%;
 }
 
